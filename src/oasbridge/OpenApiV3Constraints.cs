@@ -7,13 +7,13 @@ public abstract class OpenApiConstraint
 /// <summary>
 /// Describes the constraints on a specific OpenAPI element for a specific version of the OpenAPI specification
 /// </summary>
-public class OpenApiValueConstraint : OpenApiConstraint
+public class OpenApiValueConstraint : IOpenApiConstraint
 {
     public static OpenApiValueConstraint String { get; } = new() { ValueType = typeof(string) };
     public Type? ValueType { get; set; }
 }
 
-public class OpenApiCollectionConstraint : OpenApiConstraint
+public class OpenApiCollectionConstraint : IOpenApiCollectionConstraint
 {
     public OpenApiElement[]? AllowedChildren { get; set; }
     public OpenApiElement[]? RequiredChildren { get; set; }
@@ -22,7 +22,7 @@ public class OpenApiCollectionConstraint : OpenApiConstraint
 
 public static class OpenApiV3Constraints
 {
-    public static Dictionary<OpenApiElement, OpenApiConstraint> Constraints { get; set; } = new() {
+    public static Dictionary<IOpenApiElement, IOpenApiConstraint> Constraints { get; set; } = new() {
         {OpenApiMetadata.Document, new OpenApiCollectionConstraint {
             AllowedChildren = [
                 OpenApiMetadata.OpenApi,
