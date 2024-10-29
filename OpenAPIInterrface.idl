@@ -1,0 +1,73 @@
+// OpenAPI Document Interface for creating/manipulating OpenAPI documents
+interface IDocument {
+    // Create a new content object with the given value that belongs to the given parent element
+    IValueContent Create(IElement parentElement, IContent value);
+
+    // Create a new collection object as a child of the given parent element
+    ICollectionContent CreateCollection(IElement parentElement);
+
+    // Add a content object to a collection
+    IContent Add(ICollectionContent parentContent, IContent content);
+
+    // Remove a content object from a collection
+    void Remove(ICollectionContent parentContent, IContent content);
+
+    // Get value content from a parent collection
+    IValueContent? Get(ICollectionContent parent, IElement targetElement);
+
+    // Get a collection from a parent collection
+    ICollectionContent? GetCollection(ICollectionContent parent, IElement targetElement);
+
+    // Create/Get Relationships between content in different documents
+    void CreateRelationship(IDocument sourceDocument, IContent sourceContent, IDocument targetDocument, IContent targetContent);
+
+    // Remove Relationships between content in different documents
+    void RemoveRelationship(IDocument sourceDocument, IContent sourceContent, IDocument targetDocument, IContent targetContent);
+};
+
+// Interface for consuming API Descriptions
+interface IADA {
+
+    // Get value content from a parent collection
+    IValueContent? Get(ICollectionContent parent, IElement targetElement);
+
+    // Get a collection from a parent collection
+    ICollectionContent? GetCollection(ICollectionContent parent, IElement targetElement);
+
+    // Validate a content object against a set of constraints
+    boolean Validate(IContent content, record<IElement, IConstraint> constraints);
+
+}
+
+// A semantic element in the description
+interface IElement {
+    attribute DOMString Name;
+};
+
+// Some content of the description
+interface IContent {
+    attribute IElement Element;
+    attribute any ValueType;
+};
+
+// A primitive value content
+interface IValueContent : IContent {
+    attribute Any? Value;
+};
+
+// A collection of content objects
+interface ICollectionContent : IContent {
+    attribute sequence<IContent> Contents;
+};
+
+interface IConstraint {
+};
+
+interface IValueConstraint : IConstraint {
+    attribute any ValueType;
+};
+
+interface ICollectionConstraint : IConstraint {
+    attribute sequence<parentElement>? AllowedChildren;
+    attribute sequence<parentElement>? RequiredChildren;
+};

@@ -69,7 +69,7 @@ public class UnitTest1
 
         var paths = oad.Add(document, oad.CreateCollection(OpenApiKnownLocation.Paths));
         var path = oad.Add(paths, oad.CreateCollection(OpenApiHttpSemantics.Path));
-        oad.Add(path, oad.Create(OpenApiHttpSemantics.PathKey, "/api/hello")); // This is a duplicate use of the key
+        oad.Add(path, oad.Create(OpenApiHttpSemantics.PathKey, "/api/hello")); 
         oad.Add(path, oad.Create(OpenApiDocumentation.Description, "This is a very simple API"));
         oad.Add(path, oad.Create(OpenApiHttpSemantics.Get, oad.CreateCollection(OpenApiHttpSemantics.Operation)));
         oad.Add(path, oad.Create(OpenApiHttpSemantics.Post, oad.CreateCollection(OpenApiHttpSemantics.Operation)));
